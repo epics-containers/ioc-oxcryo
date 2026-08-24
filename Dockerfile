@@ -1,4 +1,4 @@
-ARG IMAGE_EXT
+ARG ioc-streamdevice
 
 ARG REGISTRY=ghcr.io/epics-containers
 ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.9ec5
