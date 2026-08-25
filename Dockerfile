@@ -1,8 +1,8 @@
-ARG ioc-streamdevice
+ARG IMAGE-EXT
 
 ARG REGISTRY=ghcr.io/epics-containers
 ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.9ec5
-ARG DEVELOPER=${REGISTRY}/epics-base${IMAGE_EXT}-developer:7.0.9ec5
+ARG DEVELOPER=${REGISTRY}/ioc-streamdevice${IMAGE_EXT}-developer:2.8.26ec4
 # for pre-built common support and faster builds of this generic IOC:
 # - change above to￼DEVELOPER=${REGISTRY}/ioc-asyn${IMAGE_EXT}-developer:4.45ec2
 # - comment out uv pip install lines below (unless a newer ibek is needed)
@@ -31,8 +31,8 @@ ENV PATH=$PATH:${SOURCE_FOLDER}/ibek-support/_ansible
 
 # WORKDIR ${SOURCE_FOLDER}/ibek-support-dls
 
-# COPY ibek-support/oxCryo oxCryo
-# RUN ansible.sh oxCryo
+COPY ibek-support/oxCryo oxCryo
+RUN ansible.sh oxCryo
 
 # WORKDIR ${SOURCE_FOLDER}/ibek-support
 
