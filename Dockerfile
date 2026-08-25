@@ -29,12 +29,12 @@ WORKDIR ${SOURCE_FOLDER}/ibek-support
 COPY ibek-support/_ansible _ansible
 ENV PATH=$PATH:${SOURCE_FOLDER}/ibek-support/_ansible
 
-WORKDIR ${SOURCE_FOLDER}/ibek-support-dls
+# WORKDIR ${SOURCE_FOLDER}/ibek-support-dls
 
-COPY ibek-support-dls/oxCryo oxCryo
-RUN ansible.sh oxCryo
+# COPY ibek-support/oxCryo oxCryo
+# RUN ansible.sh oxCryo
 
-WORKDIR ${SOURCE_FOLDER}/ibek-support
+# WORKDIR ${SOURCE_FOLDER}/ibek-support
 
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
