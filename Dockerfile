@@ -57,6 +57,9 @@ COPY ioc ${SOURCE_FOLDER}/ioc
 RUN ansible.sh ioc
 
 # generate a manifest of installed EPICS modules and python packages
+# IOC_VERSION is declared here, not earlier: every RUN after an ARG sees it,
+# so a new value (each branch or tag) would rebuild all the steps above
+ARG IOC_VERSION=unknown
 COPY scripts/generate_manifest.py /tmp/generate_manifest.py
 RUN python3 /tmp/generate_manifest.py "${IOC_VERSION}"
 
