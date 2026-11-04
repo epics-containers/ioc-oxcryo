@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-oxcryo/releases/latest/download/ibek.ioc.schema.json
+
+# Starts the IOC with no device, on a closed local port, to prove that it runs
+# without one and that it generates its PVI screens.
+
+ioc_name: "{{ ioc_yaml_file_name }}"
+
+description: Oxford N-Helix with no device attached, for checking screens
+
+entities:
+  - type: epics.EpicsEnvSet
+    name: EPICS_TZ
+    value: "GMT0BST"
+
+  - type: epics.EpicsEnvSet
+    name: STREAM_PROTOCOL_PATH
+    value: /epics/runtime/protocol/
+
+  - type: devIocStats.iocAdminSoft
+    IOC: TEST-CRYO-IOC
+
+  - type: asyn.AsynIP
+    name: CRYOport
+    port: 127.0.0.1:1
+
+  - type: oxCryo.OXNH700
+    P: TEST-CRYO
+    PORT: CRYOport
+
+  - type: epics.PostStartupCommand
+    command: |
+      epicsThreadSleep 20
+      dbgf TEST-CRYO-IOC:STARTTOD
+      dbgf TEST-CRYO-IOC:UPTIME
+      dbgf TEST-CRYO-IOC:HEARTBEAT
+      dbgf TEST-CRYO-IOC:IOC_CPU_LOAD
+      dbgf TEST-CRYO:DISABLE
+      dbpr TEST-CRYO:TEMP
+      dbpr TEST-CRYO:RUNMODE
+      asynReport 1 CRYOport
+      dbl

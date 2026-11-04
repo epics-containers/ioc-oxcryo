@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
 
@@ -64,6 +64,17 @@ jobs:
 
       - name: Test image
         run: tests/run-tests.sh ci_test
+
+      - name: Check generated screens
+        run: tests/check-screens.sh ci_test ${{ runner.temp }}/opi
+
+      - name: Upload generated screens
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: screens-${{ steps.platform.outputs.pair }}
+          path: ${{ runner.temp }}/opi
+          if-no-files-found: warn
 
       - name: Require released ibek-support on release tags
         # A released image pins ibek-support by commit hash only, so that commit
@@ -221,7 +232,7 @@ jobs:
           esac
 
       - name: Github Release
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           files: |
             ibek.ioc.schema.json
